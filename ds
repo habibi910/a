@@ -1,0 +1,983 @@
+1a stack------------------------------------------------------------------------------------------------------------
+#include<stdio.h>
+#include<stdlib.h>
+#define size 10
+
+int top = -1, stack[size], ele;
+
+// function to push
+void push() {
+    if (top==size-1){
+        printf("Stack overflow!");
+    }
+    else{
+        printf("Enter the element to be pushed : ");
+        scanf("%d", &ele);
+        stack[++top]=ele;
+    }
+}
+
+// function to pop
+void pop() {
+    if (top==-1){
+        printf("Empty stack!");
+    }
+    else{
+        printf("The deleted element is %d",stack[top--]);
+    }
+
+}
+
+// function to display
+void display() {
+   if (top==-1){
+        printf("Empty stack!");
+    }
+    else{
+        for (int i=top;i>=0;i--){
+            printf("%d  ", stack[i]);
+        }
+    }
+
+}
+
+// main function
+void main() {
+    int ch;
+    do{
+        printf("\n1. Insert\n2. Delete\n3. Display\n4. Exit\n");
+        printf("Enter your choice : ");
+        scanf("%d",&ch);
+        switch(ch){
+            case 1: push(); break;
+            case 2: pop(); break;
+            case 3: display(); break;
+            case 4: exit(0);
+            default: printf("Invalid choice");
+        }
+    }while(ch!=4);
+}
+//this is 1a
+1b conversion -------------------------------------------------------------------------------------------------------------
+#include<stdio.h>
+#include<string.h>
+#include<conio.h>
+#include<ctype.h>
+
+char stack[50];
+int top= -1;
+char infix[20], postfix[20];
+
+void push(char x)
+{
+    stack[++top]=x;
+}
+int pop()
+{
+    return(stack[top--]);
+}
+int prior(char x)
+{
+    int p;
+    if(x=='('||x=='#') p=1;
+    if(x=='+'||x=='-') p=2;
+    if(x=='*'||x=='/') p=3;
+    if(x=='^'||x=='$') p=4;
+    return p;
+}
+int main()
+{
+    int i,j=0;
+    printf("Enter an infix expression:\n");
+    gets(infix);
+    push('#');
+    for(i=0;i<strlen(infix);i++)
+    {
+        if(isalnum(infix[i]))
+            postfix[j++]=infix[i];
+        else if(infix[i]=='(' )
+            push(infix[i]);
+        else if(infix[i]==')' )
+        {
+            while(stack[top]!='(' )
+            postfix[j++]=pop();
+            pop();
+        }
+        else
+        {
+            while(prior(stack[top])>= prior(infix[i]))
+            postfix[j++]=pop();
+            push(infix[i]);
+        }
+    }
+    while(stack[top]!='#')
+    postfix[j++]=pop();
+    postfix[j]='\0';
+    printf("\nPostfix expression is:\n");
+    puts(postfix);
+    return 0;
+}
+
+2a queue---------------------------------------------------------------------------------------------------
+#include<stdio.h>
+#include<stdlib.h>
+#define n 10
+int ch, i, ele, f=0, r=-1, queue[n];
+
+
+void insert() {
+    if (r==n-1)
+    printf("Queue is full!\n");
+    else {
+        printf("Enter the element : \n");
+        scanf("%d", &ele);
+        queue[++r]=ele;
+    }
+}
+
+void delete() {
+    if (f>r)
+    printf("Queue is empty.\n");
+    else
+    printf("Element deleted is %d\n", queue[f++]);
+}
+
+void display() {
+    if (f>r)
+    printf("Queue is empty.\n");
+    else {
+        printf("Queue :");
+        for(i=f; i<=r; i++)
+        printf("%d\t",queue[i]);
+    }
+}
+
+int main() {
+    for (;;) {
+        printf("\n1. Insert\n2. Delete\n3. Display\n");
+        printf("Enter your choice\n");
+        scanf("%d", &ch);
+        switch(ch){
+            case 1: insert(); break;
+            case 2: delete(); break;
+            case 3: display(); break;
+            default: printf("\nInvalid choice!!");
+            exit(0);
+        }
+    }
+} this is 2a
+2b circular queue---------------------------------------------------------------------------------------------------------
+#include<stdio.h>
+#include<stdlib.h>
+#include<ctype.h>
+#define SIZE 100
+char q[SIZE];
+int f=0,r=-1,ch,c=0;
+
+void insert(){
+    if(r==SIZE-1){
+        printf("overflow\n");
+    }
+    else{
+        c++;
+        r=(r+1)%SIZE;
+        printf("enter the text:\n");
+        scanf(" %c",&q[r]);
+    }
+}
+void delete(){
+    if(c==0){
+        printf("Empty\n");
+    }
+    else{
+        c--;
+        printf("deleted element: %c\n",q[f]);
+        f=(f+1)%SIZE;
+    }
+}
+void display(){
+    int temp;
+    if(c==0){
+        printf("Empty\n");
+    }
+    else{
+        temp=f;
+        printf("the message is :\n");
+        for(int i=f;i<=c;i++){
+            printf("%c",q[i]);
+            temp=(temp+1)%SIZE;
+        }
+    } 
+}
+int main(){
+    int ch;
+    while(1){
+        printf("\n1.ins\n2.del\n3.display\n");
+        printf("enter choice:\n");
+        scanf("%d",&ch);
+        switch(ch){
+            case 1: insert(); break;
+            case 2: delete(); break;
+            case 3: display(); break;
+            default:exit(0); break;
+        }
+    }
+return 0;
+}
+3a singly linked list---------------------------------------------------------------------
+#include<stdio.h>
+#include<conio.h>
+#include<malloc.h>
+#include<process.h>
+
+struct node {
+ int info;
+ struct node* link;
+};
+
+struct node *root=NULL;
+int c=0;
+
+void inspos() {
+    struct node *temp,*p;
+    int i,loc;
+    temp=(struct node*)malloc(sizeof(struct node));
+    printf("Enter the item\n");
+    scanf("%d",&temp->info);
+    temp->link=NULL;
+    printf("Enter location to be inserted\n");
+    scanf("%d",&loc);
+    // if(loc>length1()||loc==0)
+    //     printf("invalid position\n");
+    //else
+     if(loc==1) {
+        temp->link=root;
+        root=temp;
+    }
+    else {
+        p=root;
+        for(i=1;i<loc-1;i++)
+        p=p->link;
+        temp->link=p->link;
+        p->link=temp;
+    }
+}
+
+void del_front() {
+    struct node *temp;
+    if(root==NULL)
+    printf("list is empty\n");
+    else {
+        temp=root;
+        printf("item deleted is %d\n",temp->info);
+        root=temp->link;
+        temp->link=NULL;
+        free(temp);
+    }
+}
+
+void display() {
+    struct node *temp;
+    if(root==NULL)
+    printf("list is empty\n");
+    else {
+        temp=root;
+        while(temp!=NULL) {
+            printf("%d\t",temp->info);
+            temp=temp->link;
+        }
+    }
+}
+int length1()
+{
+ struct node *t;
+ int c;
+ if(root==NULL)
+ printf("No nodes\n");
+ else
+ {
+ c=1;
+ t=root;
+ while(t->link!=NULL)
+ {
+c=c+1;
+t=t->link;
+ }
+ //
+ }
+ return c;
+}
+int main() {
+    int ch;
+    while(1){
+        printf("\n1.Insert at any location\n2.Delete from front\n3.Display\nEnter your choice ");
+        scanf("%d", &ch);
+        switch (ch){
+            case 1 : inspos(); break;
+            case 2 : del_front(); break;
+            case 3 : display(); break;
+            default : exit(0);
+        }
+    }
+  return 0;
+}//3a
+3b adding two long int-------------------------------------------------------------------------------------------------------------------------------
+#include <stdio.h>
+#include <stdlib.h>
+/* Linked list node */
+struct Node 
+{
+ int data;
+ struct Node* link;
+};
+typedef struct Node NODE;
+NODE *first=NULL;
+NODE *second=NULL;
+NODE *res=NULL;
+NODE* newNode(int data)
+{
+ NODE* new_node = (NODE *)malloc(sizeof(NODE));
+ new_node->data = data;
+ new_node->link = NULL;
+ return new_node;
+}
+
+void insfront(NODE**head_ref, int new_data)
+{
+ 
+ NODE* new_node = newNode(new_data);
+
+ new_node->link = *head_ref;
+ 
+ *head_ref = new_node;
+}
+
+NODE* addTwoLists(NODE* first, NODE* second)
+{
+
+ NODE* res = NULL;
+ NODE *temp;
+ int carry = 0, sum;
+
+ while (first != NULL || second != NULL) 
+ {
+ sum = carry + (first ? first->data : 0)+ (second ? second->data : 0);
+
+ carry = (sum >= 10) ? 1 : 0;
+
+ sum = sum % 10;
+ 
+ temp = newNode(sum);
+ 
+ if (res == NULL)
+ res = temp;
+ 
+ {
+ temp->link = res;
+ 
+ res=temp;
+}
+ // Move first and second pointers to next nodes
+ if (first)
+ first = first->link;
+ if (second)
+ second = second->link;
+ }
+ if (carry > 0)
+ {
+ temp= newNode(carry);
+ temp->link = res;
+ res=temp;
+}
+ // return head of the resultant list
+ return res;
+}
+// A utility function to print a linked list
+void printList(NODE* node)
+{
+ while (node != NULL) {
+ printf("%d ",node->data);
+ node = node->link;
+ }
+ printf("\n");
+}
+/* Driver code */
+int main(void)
+{
+ // create first list 7->5->9->4->6
+ insfront(&first, 6);
+ insfront(&first, 4);
+ insfront(&first, 9);
+ insfront(&first, 5);
+ insfront(&first, 7);
+ printf("First list is ");
+ printList(first);
+ // create second list 
+ insfront(&second, 7);
+ insfront(&second, 2);
+ insfront(&second, 1);
+ insfront(&second, 4);
+ insfront(&second, 8);
+ // insfront(&second, 8);
+ printf("Second list is ");
+ printList(second);
+ res = addTwoLists(first, second);
+ printf("Resultant list is ");
+ printList(res);
+ return 0;
+}
+//4a Doubly linkedlist------------------------------------------------------------------------------------------------------------------------------
+#include<stdio.h>
+#include<stdlib.h>
+#include<conio.h>
+struct node
+{
+ int info;
+ struct node* llink,*rlink;
+};
+struct node *root=NULL;
+
+void insfront()
+{
+ struct node *temp;
+temp=(struct node*)malloc(sizeof(struct node));
+printf("Enter the item\n");
+scanf("%d",&temp->info);
+if(root==NULL)
+{
+temp->llink=temp->rlink=temp;
+root=temp;
+ } 
+ else
+ {
+temp->rlink=root;
+temp->llink=root->llink;
+root->llink->rlink=temp;
+root->llink=temp;
+root=temp;
+ }
+}
+
+
+void display()
+{
+struct node * temp;
+if(root==NULL)
+ printf("list empty\n");
+ else
+ {
+ temp=root;
+ do
+ {
+printf("%d\t",temp->info);
+ temp=temp->rlink;
+ }while(temp!=root);
+ }
+ 
+ }
+ void delkey()
+{
+struct node *temp;;
+int key,flag=0;
+if(root==NULL)
+printf("List empty\n");
+else
+{
+ printf("enter the key to delete\n");
+ scanf("%d",&key);
+ temp=root;
+ do
+ {
+ if(temp->info==key)
+ {
+// if first node root to be changed to next node
+
+if(temp==root)
+{
+printf("%d is deleted\n",temp->info);
+root=temp->rlink;
+temp->llink->rlink=temp->rlink;
+temp->rlink->llink=temp->llink;
+free(temp);
+flag=1;
+break;
+ }
+ //for remaining case inbetween and 
+ else
+ {
+printf("%d is deleted\n",temp->info);
+temp->llink->rlink=temp->rlink;
+temp->rlink->llink=temp->llink;
+free(temp);
+flag=1;
+break;
+ }
+}
+temp=temp->rlink;
+}while(temp!=root);
+if(flag==0)
+ printf("key not found\n");
+}
+}
+
+int main() {
+    int ch;
+    for(;;)
+    {
+        printf("\n1. insert front\n2. delkey\n3. display");
+        printf("enter ur choice\n");
+        scanf("%d",&ch);
+        switch(ch)
+        {
+            case 1: insfront(); break;
+            case 2: delkey(); break;
+            case 3: display(); break;
+            default: exit(0);
+        }
+    }
+}//4a
+
+//4b sprase matrix--------------------------------------------------------------------------------------------------------------------------------
+#include<stdio.h>
+#include<stdlib.h>
+#include<conio.h>
+struct node
+{
+  int row, col,val;
+  struct node* prev,*nxt;
+};
+typedef struct node NODE;
+  NODE *root=NULL;
+int m,n;
+
+void insrear(int row,int col, int data)
+{
+NODE *temp,*curr;
+temp=(NODE*)malloc(sizeof(NODE));
+temp->val=data;
+temp->row=row;
+temp->col=col;
+temp->prev=NULL;
+temp->nxt=NULL;
+if(root==NULL)
+ root=temp;
+ else
+ {
+   curr=root;
+   while(curr->nxt!=NULL)
+   curr=curr->nxt;
+
+   curr->nxt=temp;
+   temp->prev=curr;
+ }
+}
+void display_list()
+{
+  NODE *temp;
+
+if(temp==NULL)
+printf("List Empty\n");
+else
+{
+  temp=root;
+  printf("ROW\t Col\t Value\n");
+  while(temp!=NULL)
+  {
+    printf("%d\t %d\t%d\n",temp->row,temp->col,temp->val);
+     temp=temp->nxt;
+  }
+}
+}
+void display_matrix()
+{
+  int i,j;
+  NODE *temp;
+if(root==NULL)
+printf("list is empty\n");
+else
+{
+  temp=root;
+  for(i=1;i<=m;i++)
+  {
+    for(j=1;j<=n;j++)
+    {
+      if(temp!=NULL && temp->row==i&&temp->col==j)
+      {
+	printf("%d\t",temp->val);
+	temp=temp->nxt;
+      }
+      else
+      printf("0\t");
+    } 
+    printf("\n");
+   }
+  }
+}
+
+int main()
+{
+  int i,j,a[10][10];
+
+  printf("enter the number of rows\n");
+  scanf("%d",&m);
+  printf("Enter the number of Columns\n");
+  scanf("%d",&n);
+  printf("enter the elements\n");
+  for(i=1;i<=m;i++)
+  {
+  for(j=1;j<=n;j++)
+  {
+   scanf("%d",&a[i][j]);
+   if(a[i][j]!=0)
+  insrear(i,j,a[i][j]);
+  }
+  }
+  printf("List content display\n");
+  display_list();
+  printf("Matrix Display from List\n");
+  display_matrix();
+  getch();
+ return 0;
+}//4b
+//5a Binary search tree using array-------------------------------------------------------------------------------------------------
+#include<stdio.h>
+#include<stdlib.h>
+#include<conio.h>
+#define SIZE 100
+int a[SIZE],c, p, n=0;
+void bst(int ele)
+{
+    if(a[0]=='\0')
+    {
+        a[0]=ele;
+        return;
+    }
+    c=0;p=-1;
+    while(a[c]!='\0')
+    {
+        p=c;
+        if(ele<a[c])
+        c=2*c+1;
+        else
+        c=2*c+2;
+    }
+    a[c]=ele;
+}
+void display()
+{
+    int i;
+    for(i=0;i<SIZE;i++)
+    {
+        if(a[i]=='\0')
+        continue;
+        printf("a[%d]=%d\n",i,a[i]);
+    }
+}
+void main()
+{
+    int ch,i,j,ele;
+
+    for(i=0;i<n;i++)
+    a[i]='\0';
+    printf("\n1.bst\n2.display\n");
+    for(;;)
+    {
+        printf("\nEnter choice\n");
+        scanf("%d",&ch);
+        switch(ch)
+        {
+            case 1:printf("enter no of ele to enter\n");
+            scanf("%d",&j);
+            printf("\nEnter the array of elements\n");
+            for(i=0;i<j;i++)
+            {
+            scanf("%d",&ele);
+            bst(ele);
+            }
+            break;
+            case 2:display();
+            break;
+            case 3: exit(0);
+        }
+    }
+}
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//5b pf infix to prefix postfix 
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+struct node
+{
+    char info;
+    struct node *left;
+    struct node *right;
+};
+typedef struct node *NODE;
+struct stack
+{
+    int top;
+    NODE data[10];
+};
+typedef struct stack STACK;
+int preced(char item){
+    switch(item){
+        case '^': return 5;
+        case '*':
+        case '/': return 3;
+        case '+':
+        case '-': return 1;
+    }
+}
+void preorder(NODE root){
+if(root != NULL)
+    {
+        printf("%c\t", root->info);
+        preorder(root->left);
+        preorder(root->right);
+    }
+}
+void inorder(NODE root){
+    if(root != NULL)
+    {
+        inorder(root->left);
+        printf("%c\t", root->info);
+        inorder(root->right);
+    }
+}
+void postorder(NODE root){
+    if(root != NULL){
+        postorder(root->left);
+        postorder(root->right);
+        printf("%c\t", root->info);
+    }
+}
+void push(STACK *s, NODE temp){
+    s->data[++(s->top)] = temp;
+}
+NODE pop(STACK *s){
+    return (s->data[(s->top)--]);
+}
+NODE createnode(char item)
+{
+    NODE temp;
+    temp = (NODE)malloc(sizeof(struct node));
+    temp->info = item;
+    temp->left = NULL;
+    temp->right = NULL;
+    return temp;
+}
+NODE createExpTree(char expr[20])
+{
+    STACK tree, operator;
+    tree.top = -1;
+    operator.top = -1;
+    char symbol;
+    int i;
+    NODE temp, t, l, r;
+    for (i=0; expr[i] != '\0'; i++)
+    {
+        symbol = expr[i];
+        temp = createnode(symbol);
+        if(isalnum(symbol))
+        push(&tree, temp);
+        else
+        {
+            if(operator.top == -1)
+            push(&operator, temp);
+            else
+            {
+                while(operator.top != -1 && preced((operator.data[operator.top])->info) >= preced(symbol))
+                {
+                    t = pop(&operator);
+                    r = pop(&tree);
+                    l = pop(&tree);
+                    t->right = r;
+                    t->left = l;
+                    push(&tree, t);
+                }
+                push(&operator, temp);
+            }
+        }
+    }
+    while(operator.top != -1)
+    {
+        t = pop(&operator);
+        r = pop(&tree);
+        l = pop(&tree);
+        t->right = r;
+        t->left = l;
+        push(&tree, t);
+    }
+    return pop(&tree);
+}
+int main()
+{
+    NODE root = NULL;
+    char expr[20];
+    printf("Read expression\n");
+    scanf("%s", expr);
+    root = createExpTree(expr);
+    printf("\nInorder::");
+    inorder(root);
+    printf("\nPreorder:");
+    preorder(root);
+    printf("\nPostorder:");
+    postorder(root);
+    return 0;
+}
+6a---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#include<stdio.h>
+#include <stdlib.h>
+struct tnode
+{
+    int data;
+    struct tnode *right,*left;
+};
+typedef struct tnode TNODE;
+TNODE *CreateBST(TNODE *, int);
+void Preorder(TNODE *);
+void Postorder(TNODE *root);
+void Inorder(TNODE *root);
+int main( )
+{
+    TNODE *root=NULL; /* Main Program */
+    int opn,elem,n,i;
+    do
+    {
+        printf("\n Binary Search Tree Operations \n\n");
+        printf("\n 1-Creation of BST\n 2. Inorder 3. Preorder 4. Postorder\n");
+        printf("\n Enter Your option ? ");
+        scanf("%d",&opn);
+        switch(opn)
+        {
+            case 1: root=NULL;
+            printf("\n\nBST for How Many Nodes ?");
+            scanf("%d",&n);
+            for(i=1;i<=n;i++)
+            {
+                printf("\nRead the Data for Node %d ?",i);
+                scanf("%d",&elem);
+                root=CreateBST(root,elem);
+            }
+            printf("\nBST with %d nodes is ready to Use!!\n",n); break;
+            case 2: printf("\n BST Traversal in INORDER \n");
+            Inorder(root); break;
+            case 3: printf("\n BST Traversal in PREORDER \n");
+            Preorder(root); break;
+            case 4: printf("\n BST Traversal in PostORDER \n");
+            Postorder(root); break;
+            default: printf("\n\nInvalid Option !!! Try Again !! \n\n"); break;
+        }
+        printf("\n\n\n\n Press a Key to Continue . . . ");
+    }while(opn != 5);
+}
+TNODE *CreateBST(TNODE *root, int elem)
+{
+    if(root == NULL)
+    {
+        root=(TNODE *)malloc(sizeof(TNODE));
+        root->left= root->right = NULL;
+        root->data=elem;
+        return root;
+    }
+    else
+    {
+        if( elem < root->data )
+        root->left=CreateBST(root->left,elem);
+        else
+        if( elem > root->data )
+        root->right=CreateBST(root->right,elem);
+        else
+        printf(" Duplicate Element !! Not Allowed !!!");
+        return(root);
+    }
+}
+void Preorder(TNODE *root)
+{
+    if( root != NULL)
+    {
+        printf(" %d ",root->data);
+        Preorder(root->left);
+        Preorder(root->right);
+    }
+}
+void Postorder(TNODE *root)
+{
+    if( root != NULL)
+    {
+        Postorder(root->left);
+        Postorder(root->right);
+        printf(" %d ",root->data);
+    }
+}
+void Inorder(TNODE *root)
+{
+    if( root != NULL)
+    {
+        Inorder(root->left);
+        printf(" %d ",root->data);
+        Inorder(root->right);
+    }
+}
+6b payroll management---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+struct node{
+int id;
+char name[20];
+int time;
+struct node *right,*left;
+};
+typedef struct node treenode;
+treenode *root = NULL;
+treenode* newnode(int id,char name[],int time){
+treenode* temp = (treenode*)malloc(sizeof(treenode));
+int i;
+temp->id = id;
+for( i=0;i<strlen(name);i++)
+temp->name[i] = name[i];
+temp->name[i] = '\0';
+temp->time = time;
+temp->right = NULL;
+temp->left = NULL;
+return temp;
+}
+treenode* createbst(treenode *root,int id,char name[],int time){
+if(root==NULL){
+treenode* p = newnode(id,name,time);
+root = p;
+return root;
+}
+if(id<root->id)
+root->left = createbst(root->left,id,name,time);
+else if(id>root->id)
+root->right = createbst(root->right,id,name,time);
+else
+printf("duplicate id not allowed\n");
+return root;
+}
+void inorder(treenode* root){
+if(root==NULL)
+return;
+inorder(root->left);
+printf("%d\t\t%s\t\t\t%d \n",root->id,root->name,root->time);
+inorder(root->right);
+}
+int main(){
+int i,n,id,time;
+char name[20];
+printf("enter the number of employees\n");
+scanf("%d",&n);
+for(i=0;i<n;i++){
+printf("enter employee id\n");
+scanf("%d",&id);
+printf("enter employee name\n");
+scanf("%s",name);
+printf("enter employee login time\n");
+scanf("%d",&time);
+root = createbst(root,id,name,time);
+}
+printf("id\t\t name\t\t\t login time\n");
+inorder(root);
+}
